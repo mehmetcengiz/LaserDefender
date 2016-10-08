@@ -18,7 +18,12 @@ public class EnemySpawner : MonoBehaviour {
         Vector3 rightBoundary = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distanceToCamera));
         _xmax = rightBoundary.x;
         _xmin = leftBoundary.x;
-        foreach (Transform child in transform) {
+        SpawnEnemies();  
+    }
+
+    private void SpawnEnemies() {
+        foreach (Transform child in transform)
+        {
             GameObject enemy = Instantiate(enemyPrefab, child.transform.position, Quaternion.identity) as GameObject;
             enemy.transform.parent = child;
         }
@@ -46,5 +51,18 @@ public class EnemySpawner : MonoBehaviour {
         else if (rightEdgeOfFormation > _xmax) {
             _isMovingRight = false;
         }
+
+        if (IsAllMembersDead()){
+            SpawnEnemies();
+        }
+    }
+
+    private bool IsAllMembersDead() {
+        foreach (Transform childPositionGameObject in transform ) {
+            if (childPositionGameObject.childCount > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
