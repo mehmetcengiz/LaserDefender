@@ -6,6 +6,13 @@ public class EnemyBehaviour : MonoBehaviour {
     public GameObject Projectile;
     public float ProjectileSpeed = 10f;
     public float ShotsPerSeconds = 0.5f;
+    public int ScoreValue = 150;
+
+    private ScoreKeeper _scoreKeeper;
+    void Start() {
+        _scoreKeeper = GameObject.Find("Score").GetComponent<ScoreKeeper>();
+    }
+
 
     void Update() {
         float probability = Time.deltaTime*ShotsPerSeconds;
@@ -23,7 +30,10 @@ public class EnemyBehaviour : MonoBehaviour {
         if (missile) {
             Healt -= missile.GetDamage();
             missile.Hit();
-            if(Healt <= 0) { Destroy(gameObject);}
+            if (Healt <= 0) {
+                Destroy(gameObject);
+                _scoreKeeper.Score(ScoreValue);
+            }
         }
     }
 }
