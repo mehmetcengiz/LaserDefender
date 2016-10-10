@@ -21,12 +21,6 @@ public class EnemyBehaviour : MonoBehaviour {
         if(Random.value < probability) {Fire();}
     }
 
-    void Fire() {
-        GameObject missile = Instantiate(Projectile, transform.position, Quaternion.identity) as GameObject;
-        missile.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -ProjectileSpeed);
-        AudioSource.PlayClipAtPoint(FireSound,transform.position);
-    }
-
     void OnTriggerEnter2D(Collider2D collider) {
         Projectile missile = collider.gameObject.GetComponent<Projectile>();
         if (missile) {
@@ -36,6 +30,12 @@ public class EnemyBehaviour : MonoBehaviour {
                 Die();
             }
         }
+    }
+
+    void Fire() {
+        GameObject missile = Instantiate(Projectile, transform.position, Quaternion.identity) as GameObject;
+        missile.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -ProjectileSpeed);
+        AudioSource.PlayClipAtPoint(FireSound,transform.position);
     }
 
     void Die() {
